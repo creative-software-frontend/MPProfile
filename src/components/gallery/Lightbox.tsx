@@ -51,7 +51,7 @@ const Lightbox = ({
 
   return (
     <div 
-      className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center"
+      className="fixed inset-0 z-100 bg-black/95 flex items-center justify-center"
       onClick={onClose}
     >
       {/* Close Button */}
@@ -108,7 +108,7 @@ const Lightbox = ({
 
         {/* Info Bar */}
         {(currentItem.title || currentItem.description) && (
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
+          <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/80 to-transparent p-6 text-white">
             <h3 className="text-xl font-bold mb-2">{currentItem.title}</h3>
             {currentItem.description && (
               <p className="text-sm text-white/80">{currentItem.description}</p>
