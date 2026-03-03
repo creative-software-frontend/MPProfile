@@ -16,7 +16,6 @@ import ReachOutPage from '@/pages/ReachOutPage'
 import NotFound from '@/pages/NotFound'
 import GalleryPhotoPage from '@/pages/GalleryPhotoPage'
 import GalleryVideoPage from '@/pages/GalleryVideoPage'
-import GalleryAudioPage from '@/pages/GalleryAudioPage'
 import NewsDetailPage from '@/pages/NewsDetailPage'
 
 export const router = createBrowserRouter([
@@ -72,10 +71,6 @@ export const router = createBrowserRouter([
       {
         path: 'gallery/video',
         element: <GalleryVideoPage />,
-      },
-      {
-        path: 'gallery/audio',
-        element: <GalleryAudioPage />,
       },
       {
         path: 'news',
