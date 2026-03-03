@@ -5,10 +5,12 @@ import { useLanguage } from '@/hooks/useLanguage'
 interface LightboxProps {
   isOpen: boolean
   onClose: () => void
-  currentImage: {
+  currentItem: {
+    type: 'photo' | 'video'
     src: string
-    title: string | { en: string; bn: string } // টাইটেল স্ট্রিং বা অবজেক্ট হতে পারে
-    description?: string | { en: string; bn: string } // ডেসক্রিপশন স্ট্রিং বা অবজেক্ট হতে পারে
+    title: string
+    description?: string
+    videoId?: string
   }
   onNext?: () => void
   onPrev?: () => void
@@ -19,29 +21,13 @@ interface LightboxProps {
 const Lightbox = ({ 
   isOpen, 
   onClose, 
-  currentImage, 
+  currentItem, 
   onNext, 
   onPrev, 
   hasNext, 
   hasPrev 
 }: LightboxProps) => {
   const { language } = useLanguage()
-
-  // টাইটেল ও ডেসক্রিপশন ভাষা অনুযায়ী দেখানো
-  const getTitle = () => {
-    if (typeof currentImage.title === 'string') {
-      return currentImage.title
-    }
-    return currentImage.title[language]
-  }
-
-  const getDescription = () => {
-    if (!currentImage.description) return undefined
-    if (typeof currentImage.description === 'string') {
-      return currentImage.description
-    }
-    return currentImage.description[language]
-  }
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -58,7 +44,6 @@ const Lightbox = ({
 
     window.addEventListener('keydown', handleKeyDown)
     
-    // Body scroll lock
     if (isOpen) {
       document.body.style.overflow = 'hidden'
     }
@@ -71,9 +56,43 @@ const Lightbox = ({
 
   if (!isOpen) return null
 
+  // সরাসরি iframe স্ট্রিং না বানিয়ে, React element বানাচ্ছি
+  const renderContent = () => {
+    if (currentItem.type === 'photo') {
+      return (
+        <img
+          src={currentItem.src}
+          alt={currentItem.title}
+          className="max-w-full max-h-[90vh] object-contain"
+        />
+      )
+    } else if (currentItem.type === 'video' && currentItem.videoId) {
+      // YouTube embed URL
+      const embedUrl = `https://www.youtube.com/embed/${currentItem.videoId}?autoplay=1&rel=0&modestbranding=1&controls=1`
+      
+      return (
+        <div className="relative w-full max-w-4xl aspect-video">
+          <iframe
+            src={embedUrl}
+            title={currentItem.title}
+            className="absolute inset-0 w-full h-full rounded-lg"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      )
+    } else {
+      return (
+        <div className="text-white text-center p-8">
+          <p>Video could not be loaded</p>
+        </div>
+      )
+    }
+  }
+
   return (
     <div 
-      className="fixed inset-0 z-100 bg-black/95 flex items-center justify-center"
+      className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center"
       onClick={onClose}
     >
       {/* Close Button */}
@@ -106,23 +125,19 @@ const Lightbox = ({
         </button>
       )}
 
-      {/* Image Container */}
+      {/* Content Container */}
       <div 
         className="relative max-w-[90vw] max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
-        <img
-          src={currentImage.src}
-          alt={getTitle()}
-          className="max-w-full max-h-[90vh] object-contain"
-        />
+        {renderContent()}
         
-        {/* Image Info */}
-        {(getTitle() || getDescription()) && (
-          <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/80 to-transparent p-6 text-white">
-            <h3 className="text-xl font-bold mb-2">{getTitle()}</h3>
-            {getDescription() && (
-              <p className="text-sm text-white/80">{getDescription()}</p>
+        {/* Info */}
+        {(currentItem.title || currentItem.description) && (
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
+            <h3 className="text-xl font-bold mb-2">{currentItem.title}</h3>
+            {currentItem.description && (
+              <p className="text-sm text-white/80">{currentItem.description}</p>
             )}
           </div>
         )}

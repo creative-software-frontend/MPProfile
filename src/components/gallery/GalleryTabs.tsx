@@ -1,10 +1,10 @@
 import React from 'react'
 import { useLanguage } from '@/hooks/useLanguage'
-import { Image, Play, Music } from 'lucide-react'
+import { Image, Play } from 'lucide-react'
 
 interface GalleryTabsProps {
-  activeTab: 'photo' | 'video' | 'audio'
-  onTabChange: (tab: 'photo' | 'video' | 'audio') => void
+  activeTab: 'photo' | 'video'  
+  onTabChange: (tab: 'photo' | 'video') => void
 }
 
 const GalleryTabs = ({ activeTab, onTabChange }: GalleryTabsProps) => {
@@ -20,11 +20,6 @@ const GalleryTabs = ({ activeTab, onTabChange }: GalleryTabsProps) => {
       id: 'video' as const,
       label: { en: 'Videos', bn: 'ভিডিও' },
       icon: Play
-    },
-    {
-      id: 'audio' as const,
-      label: { en: 'Audio', bn: 'অডিও' },
-      icon: Music
     }
   ]
 

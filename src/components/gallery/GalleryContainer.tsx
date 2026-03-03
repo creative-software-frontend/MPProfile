@@ -6,36 +6,38 @@ import GalleryTabs from './GalleryTabs'
 import GalleryGrid from './GalleryGrid'
 import CTACard from '@/components/ui/CTACard'
 
-// টাইপ গার্ড ফাংশন
-const isPhotoItem = (item: any): item is typeof galleryContent.photos[0] => {
-  return item.category === 'photo'
-}
-
-const isVideoItem = (item: any): item is typeof galleryContent.videos[0] => {
-  return item.category === 'video'
-}
-
-const isAudioItem = (item: any): item is typeof galleryContent.audio[0] => {
-  return item.category === 'audio'
+// ইউনিয়ন টাইপ ডিফাইন করলাম
+type GalleryItemType = {
+  id: number
+  title: { en: string; bn: string }
+  description?: { en: string; bn: string }
+  thumbnail: string
+  date: string
+  category: 'photo' | 'video'
+  url?: string
 }
 
 const GalleryContainer = () => {
   const { language } = useLanguage()
-  const [activeTab, setActiveTab] = useState<'photo' | 'video' | 'audio'>('photo')
+  const [activeTab, setActiveTab] = useState<'photo' | 'video'>('photo')
 
-  const getItems = () => {
+  const getItems = (): GalleryItemType[] => {
     switch(activeTab) {
-      case 'photo': return galleryContent.photos
-      case 'video': return galleryContent.videos
-      case 'audio': return galleryContent.audio
+      case 'photo': 
+        return galleryContent.photos
+      case 'video': 
+        return galleryContent.videos
+      default:
+        return []
     }
   }
 
   const getTitle = () => {
     switch(activeTab) {
-      case 'photo': return language === 'en' ? 'Photo Gallery' : 'ছবির গ্যালারি'
-      case 'video': return language === 'en' ? 'Video Gallery' : 'ভিডিও গ্যালারি'
-      case 'audio': return language === 'en' ? 'Audio Gallery' : 'অডিও গ্যালারি'
+      case 'photo': 
+        return language === 'en' ? 'Photo Gallery' : 'ছবির গ্যালারি'
+      case 'video': 
+        return language === 'en' ? 'Video Gallery' : 'ভিডিও গ্যালারি'
     }
   }
 
@@ -49,10 +51,6 @@ const GalleryContainer = () => {
         return language === 'en'
           ? 'Watch speeches, interviews, and event coverage.'
           : 'ভাষণ, সাক্ষাৎকার ও ইভেন্টের ভিডিও দেখুন।'
-      case 'audio':
-        return language === 'en'
-          ? 'Listen to radio interviews and important announcements.'
-          : 'রেডিও সাক্ষাৎকার ও গুরুত্বপূর্ণ ঘোষণা শুনুন।'
     }
   }
 
@@ -61,7 +59,7 @@ const GalleryContainer = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-black">
-      <div className="container mx-auto py-12 md:py-20">
+      <div className="container mx-auto px-4 py-12 md:py-20">
         
         <GalleryHeader 
           title={getTitle()}
@@ -71,9 +69,9 @@ const GalleryContainer = () => {
 
         <GalleryTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
-        {/* Type */}
+        {/* items  */}
         <GalleryGrid 
-          items={items as any} 
+          items={items} 
           type={activeTab} 
         />
 

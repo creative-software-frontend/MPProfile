@@ -1,48 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useLanguage } from '@/hooks/useLanguage'
-import { Play, Music, Calendar, Download, ExternalLink, Maximize2 } from 'lucide-react'
+import { Play, Calendar, Maximize2, Youtube } from 'lucide-react'
 import type { GalleryItem } from '@/config/galleryContent'
 
 interface GalleryCardProps {
   item: GalleryItem
-  type: 'photo' | 'video' | 'audio'
+  type: 'photo' | 'video'
   onClick?: () => void
 }
 
 const GalleryCard = ({ item, type, onClick }: GalleryCardProps) => {
   const { language } = useLanguage()
-  const [isPlaying, setIsPlaying] = useState(false)
-
-  const getIcon = () => {
-    switch(type) {
-      case 'video': return <Play className="h-5 w-5" />
-      case 'audio': return <Music className="h-5 w-5" />
-      default: return <Maximize2 className="h-5 w-5" />
-    }
-  }
-
-  const handlePlay = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    if (type === 'video' && item.url) {
-      window.open(item.url, '_blank')
-    } else if (type === 'audio' && item.url) {
-      setIsPlaying(!isPlaying)
-      // অডিও প্লেয়ার লজিক এখানে
-    }
-  }
-
-  const handleCardClick = () => {
-    if (type === 'photo' && onClick) {
-      onClick()
-    }
-  }
 
   return (
     <div 
-      className={`group relative bg-white dark:bg-black border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 ${
-        type === 'photo' ? 'cursor-pointer' : ''
-      }`}
-      onClick={handleCardClick}
+      className={`group relative bg-white dark:bg-black border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer`}
+      onClick={onClick}
     >
       
       {/* Thumbnail */}
@@ -57,27 +30,25 @@ const GalleryCard = ({ item, type, onClick }: GalleryCardProps) => {
         <div className="absolute top-3 left-3 bg-primary text-white px-3 py-1 rounded-full text-xs">
           {type === 'photo' && (language === 'en' ? 'Photo' : 'ছবি')}
           {type === 'video' && (language === 'en' ? 'Video' : 'ভিডিও')}
-          {type === 'audio' && (language === 'en' ? 'Audio' : 'অডিও')}
         </div>
 
         {/* Overlay Icon */}
-        <div className={`absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-          type === 'photo' ? 'bg-black/20' : ''
-        }`}>
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center transform hover:scale-110 transition-transform">
-            <div className={type === 'photo' ? 'text-primary' : 'text-primary'}>
-              {type === 'photo' ? <Maximize2 className="h-5 w-5" /> : getIcon()}
+            <div className="text-primary">
+              {type === 'photo' ? (
+                <Maximize2 className="h-5 w-5" />
+              ) : (
+                <Youtube className="h-5 w-5" />
+              )}
             </div>
           </div>
         </div>
 
-        {/* Video/Audio Play Button (separate) */}
-        {type !== 'photo' && (
-          <div 
-            onClick={handlePlay}
-            className="absolute bottom-3 right-3 bg-primary text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-primary-dark"
-          >
-            {type === 'video' ? <Play className="h-4 w-4" /> : <Music className="h-4 w-4" />}
+        {/* Video Badge */}
+        {type === 'video' && (
+          <div className="absolute bottom-3 right-3 bg-red-600 text-white p-1.5 rounded-full">
+            <Play className="h-4 w-4" />
           </div>
         )}
       </div>
@@ -94,39 +65,15 @@ const GalleryCard = ({ item, type, onClick }: GalleryCardProps) => {
           </p>
         )}
 
-        {/* Metadata */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-500">
-            <Calendar className="h-3 w-3" />
-            <span>{new Date(item.date).toLocaleDateString(
+        {/* Date */}
+        <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-500">
+          <Calendar className="h-3 w-3" />
+          <span>
+            {new Date(item.date).toLocaleDateString(
               language === 'en' ? 'en-US' : 'bn-BD',
               { year: 'numeric', month: 'long', day: 'numeric' }
-            )}</span>
-          </div>
-
-          {/* Action Buttons */}
-          {item.url && type !== 'photo' && (
-            <div className="flex gap-2">
-              {type === 'audio' && (
-                <button 
-                  onClick={(e) => { e.stopPropagation(); window.open(item.url, '_blank') }}
-                  className="text-gray-500 hover:text-primary transition-colors"
-                  title={language === 'en' ? 'Download' : 'ডাউনলোড'}
-                >
-                  <Download className="h-4 w-4" />
-                </button>
-              )}
-              {type === 'video' && (
-                <button 
-                  onClick={(e) => { e.stopPropagation(); window.open(item.url, '_blank') }}
-                  className="text-gray-500 hover:text-primary transition-colors"
-                  title={language === 'en' ? 'Watch' : 'দেখুন'}
-                >
-                  <ExternalLink className="h-4 w-4" />
-                </button>
-              )}
-            </div>
-          )}
+            )}
+          </span>
         </div>
       </div>
     </div>

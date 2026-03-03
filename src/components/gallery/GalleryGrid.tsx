@@ -1,16 +1,40 @@
 import React, { useState } from 'react'
-import { useLanguage } from '@/hooks/useLanguage' // ← ইম্পোর্ট যোগ করুন
+import { useLanguage } from '@/hooks/useLanguage'
 import GalleryCard from './GalleryCard'
 import Lightbox from './Lightbox'
 import type { GalleryItem } from '@/config/galleryContent'
 
-interface GalleryGridProps<T extends GalleryItem> {
-  items: T[]
-  type: T['category']
+interface GalleryGridProps {
+  items: GalleryItem[]
+  type: 'photo' | 'video'
 }
 
-function GalleryGrid<T extends GalleryItem>({ items, type }: GalleryGridProps<T>) {
-  const { language } = useLanguage() // ← হুক ব্যবহার করুন
+// improved YouTube video ID extractor
+const getYouTubeVideoId = (url: string): string | null => {
+  if (!url) return null
+  
+  // various YouTube URL formats
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&?/]+)/,
+    /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
+  ]
+  
+  for (const pattern of patterns) {
+    const match = url.match(pattern)
+    if (match && match[1] && match[1].length === 11) {
+      return match[1]
+    }
+    if (match && match[2] && match[2].length === 11) {
+      return match[2]
+    }
+  }
+  
+  console.log('Could not extract video ID from:', url)
+  return null
+}
+
+const GalleryGrid = ({ items, type }: GalleryGridProps) => {
+  const { language } = useLanguage()
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -22,11 +46,9 @@ function GalleryGrid<T extends GalleryItem>({ items, type }: GalleryGridProps<T>
     )
   }
 
-  const handleImageClick = (index: number) => {
-    if (type === 'photo') {
-      setCurrentIndex(index)
-      setLightboxOpen(true)
-    }
+  const handleItemClick = (index: number) => {
+    setCurrentIndex(index)
+    setLightboxOpen(true)
   }
 
   const handleNext = () => {
@@ -38,6 +60,25 @@ function GalleryGrid<T extends GalleryItem>({ items, type }: GalleryGridProps<T>
   }
 
   const currentItem = items[currentIndex]
+  
+  // debug: log the current item
+  console.log('Current item:', currentItem)
+  
+  const videoId = currentItem.url ? getYouTubeVideoId(currentItem.url) : null
+  console.log('Extracted videoId:', videoId)
+
+  const getCurrentTitle = () => {
+    return typeof currentItem.title === 'string' 
+      ? currentItem.title 
+      : currentItem.title[language]
+  }
+
+  const getCurrentDescription = () => {
+    if (!currentItem.description) return undefined
+    return typeof currentItem.description === 'string'
+      ? currentItem.description
+      : currentItem.description[language]
+  }
 
   return (
     <>
@@ -47,29 +88,27 @@ function GalleryGrid<T extends GalleryItem>({ items, type }: GalleryGridProps<T>
             key={item.id} 
             item={item} 
             type={type}
-            onClick={() => handleImageClick(index)}
+            onClick={() => handleItemClick(index)}
           />
         ))}
       </div>
 
-      {/* Lightbox for Photos */}
-      {type === 'photo' && lightboxOpen && (
-        <Lightbox
-          isOpen={lightboxOpen}
-          onClose={() => setLightboxOpen(false)}
-          currentImage={{
-            src: currentItem.thumbnail,
-            title: currentItem.title[language], 
-            description: currentItem.description 
-              ? currentItem.description[language] 
-              : undefined
-          }}
-          onNext={handleNext}
-          onPrev={handlePrev}
-          hasNext={items.length > 1}
-          hasPrev={items.length > 1}
-        />
-      )}
+      {/* Lightbox */}
+      <Lightbox
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        currentItem={{
+          type: type,
+          src: currentItem.thumbnail,
+          title: getCurrentTitle(),
+          description: getCurrentDescription(),
+          videoId: type === 'video' && videoId ? videoId : undefined
+        }}
+        onNext={handleNext}
+        onPrev={handlePrev}
+        hasNext={items.length > 1}
+        hasPrev={items.length > 1}
+      />
     </>
   )
 }

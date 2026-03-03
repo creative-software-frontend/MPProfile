@@ -13,7 +13,7 @@ export interface GalleryItem {
   thumbnail: string
   url?: string
   date: string
-  category: 'photo' | 'video' | 'audio'  
+  category: 'photo' | 'video'
 }
 
 export const galleryContent = {
@@ -30,7 +30,7 @@ export const galleryContent = {
       },
       thumbnail: '/images/gallery/meeting-1.jpg',
       date: '2024-02-15',
-      category: 'photo' as const  
+      category: 'photo' as const
     },
     {
       id: 2,
@@ -44,20 +44,6 @@ export const galleryContent = {
       },
       thumbnail: '/images/gallery/school-1.jpg',
       date: '2024-02-10',
-      category: 'photo' as const
-    },
-    {
-      id: 3,
-      title: {
-        en: 'Healthcare Camp Inauguration',
-        bn: 'স্বাস্থ্য ক্যাম্প উদ্বোধন'
-      },
-      description: {
-        en: `${siteConfig.leader.name.en} launching free healthcare camp`,
-        bn: `${siteConfig.leader.name.bn} বিনামূল্যে স্বাস্থ্য ক্যাম্প চালু করছেন`
-      },
-      thumbnail: '/images/gallery/health-1.jpg',
-      date: '2024-02-05',
       category: 'photo' as const
     }
   ],
@@ -73,41 +59,9 @@ export const galleryContent = {
         bn: `${siteConfig.leader.name.bn} বিশাল জনসভায় ভাষণ দিচ্ছেন`
       },
       thumbnail: '/images/gallery/video-thumb-1.jpg',
-      url: 'https://youtube.com/watch?v=123',
+      url: 'https://www.youtube.com/watch?v=TrWaIUqQGJ8', 
       date: '2024-02-01',
       category: 'video' as const
-    },
-    {
-      id: 2,
-      title: {
-        en: 'Interview on Local Development',
-        bn: 'স্থানীয় উন্নয়ন নিয়ে সাক্ষাৎকার'
-      },
-      description: {
-        en: `Exclusive interview with ${siteConfig.leader.name.en} about ongoing projects`,
-        bn: `${siteConfig.leader.name.bn} এর সাথে চলমান প্রকল্প নিয়ে এক্সক্লুসিভ সাক্ষাৎকার`
-      },
-      thumbnail: '/images/gallery/video-thumb-2.jpg',
-      url: 'https://youtube.com/watch?v=456',
-      date: '2024-01-25',
-      category: 'video' as const
-    }
-  ],
-  audio: [
-    {
-      id: 1,
-      title: {
-        en: 'Radio Interview',
-        bn: 'রেডিও সাক্ষাৎকার'
-      },
-      description: {
-        en: `${siteConfig.leader.name.en} discussing upcoming development plans`,
-        bn: `${siteConfig.leader.name.bn} আসন্ন উন্নয়ন পরিকল্পনা নিয়ে আলোচনা করছেন`
-      },
-      thumbnail: '/images/gallery/audio-thumb-1.jpg',
-      url: '/audio/interview-1.mp3',
-      date: '2024-01-20',
-      category: 'audio' as const
     }
   ]
 }
