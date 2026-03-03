@@ -12,13 +12,16 @@ const Logo: React.FC<LogoProps> = ({
   name = 'Leader' 
 }) => {
   return (
-    <Link to="/" className="block">
-      <Avatar className="h-8 w-8 xl:h-9 xl:w-9 2xl:h-10 2xl:w-10 border-2 border-primary">
+    <Link to="/" className="flex items-center gap-3">
+      <Avatar className="h-10 w-10 border-2 border-primary">
         <AvatarImage src={image} alt={name} />
-        <AvatarFallback className="bg-primary text-primary-foreground text-xs xl:text-sm">
+        <AvatarFallback className="bg-primary text-primary-foreground">
           {name.charAt(0)}
         </AvatarFallback>
       </Avatar>
+      {/* <span className="font-semibold text-lg hidden sm:block text-foreground">
+        {name}
+      </span> */}
     </Link>
   )
 }
