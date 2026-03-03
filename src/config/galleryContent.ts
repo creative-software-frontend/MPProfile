@@ -12,6 +12,7 @@ export interface GalleryItem {
   }
   thumbnail: string
   url?: string
+  videoId?: string  // নতুন ফিল্ড যোগ করলাম
   date: string
   category: 'photo' | 'video'
 }
@@ -59,7 +60,9 @@ export const galleryContent = {
         bn: `${siteConfig.leader.name.bn} বিশাল জনসভায় ভাষণ দিচ্ছেন`
       },
       thumbnail: '/images/gallery/video-thumb-1.jpg',
-      url: 'https://www.youtube.com/watch?v=TrWaIUqQGJ8', 
+      
+      url: 'https://www.youtube.com/watch?v=TrWaIUqQGJ8&t=3s',
+      videoId: 'TrWaIUqQGJ8', 
       date: '2024-02-01',
       category: 'video' as const
     }

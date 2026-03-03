@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLanguage } from '@/hooks/useLanguage'
-import { Play, Calendar, Maximize2, Youtube } from 'lucide-react'
+import { Play, Calendar, Maximize2 } from 'lucide-react'
 import type { GalleryItem } from '@/config/galleryContent'
 
 interface GalleryCardProps {
@@ -18,8 +18,8 @@ const GalleryCard = ({ item, type, onClick }: GalleryCardProps) => {
       onClick={onClick}
     >
       
-      {/* Thumbnail */}
-      <div className="relative aspect-video overflow-hidden">
+      {/* Thumbnail Container - fixed aspect ratio */}
+      <div className="relative aspect-video w-full overflow-hidden bg-gray-900">
         <img
           src={item.thumbnail}
           alt={item.title[language]}
@@ -27,28 +27,27 @@ const GalleryCard = ({ item, type, onClick }: GalleryCardProps) => {
         />
         
         {/* Category Badge */}
-        <div className="absolute top-3 left-3 bg-primary text-white px-3 py-1 rounded-full text-xs">
+        <div className="absolute top-3 left-3 bg-primary text-white px-3 py-1 rounded-full text-xs z-10">
           {type === 'photo' && (language === 'en' ? 'Photo' : 'ছবি')}
           {type === 'video' && (language === 'en' ? 'Video' : 'ভিডিও')}
         </div>
 
-        {/* Overlay Icon */}
-        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center transform hover:scale-110 transition-transform">
-            <div className="text-primary">
-              {type === 'photo' ? (
-                <Maximize2 className="h-5 w-5" />
-              ) : (
-                <Youtube className="h-5 w-5" />
-              )}
+        {/* Play Button Overlay - সবসময় visible */}
+        {type === 'video' && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            {/* Big Play Button */}
+            <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center transform transition-all duration-300 group-hover:scale-110 group-hover:bg-primary-dark shadow-xl">
+              <Play className="h-8 w-8 text-white ml-1" />
             </div>
           </div>
-        </div>
+        )}
 
-        {/* Video Badge */}
-        {type === 'video' && (
-          <div className="absolute bottom-3 right-3 bg-red-600 text-white p-1.5 rounded-full">
-            <Play className="h-4 w-4" />
+        {/* Hover Overlay - only for photos */}
+        {type === 'photo' && (
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+              <Maximize2 className="h-5 w-5 text-primary" />
+            </div>
           </div>
         )}
       </div>
