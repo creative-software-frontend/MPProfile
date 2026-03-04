@@ -28,7 +28,7 @@ const HomeIntro = () => {
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
             
             {/* Image Column */}
-            <div className="md:col-span-2 flex justify-center">
+            <div className="md:col-span-2 flex justify-center lg:justify-left">
               <div className="relative w-64 h-64 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-primary shadow-xl">
                 <img
                   src={leader.imagePath}
@@ -39,7 +39,7 @@ const HomeIntro = () => {
             </div>
 
             {/* Text Column */}
-            <div className="md:col-span-3">
+            <div className="md:col-span-3 mx-2 lg:mx-0">
               <p className="text-lg text-black dark:text-white leading-relaxed mb-6">
                 {content.description}
               </p>
