@@ -13,12 +13,12 @@ export const siteConfig = {
   // Leader Information 
   leader: {
     name: {
-      en: 'Samiya Islam Lamiya',
-      bn: 'সামিয়া ইসলাম লামিয়া'
+      en: 'Nazrul Islam Azad',
+      bn: 'নজরুল ইসলাম আজাদ'
     },
     nameFull: {
-      en: 'Samiya Islam Lamiya',
-      bn: 'সামিয়া ইসলাম লামিয়া'
+      en: 'Nazrul Islam Azad',
+      bn: 'নজরুল ইসলাম আজাদ'
     },
     designation: {
       en: 'Member of Parliament',
@@ -29,12 +29,12 @@ export const siteConfig = {
       bn: 'সাবেক সংসদ সদস্য'
     },
     constituency: {
-      en: 'Narayanganj-3',
-      bn: 'নারায়ণগঞ্জ-৩'
+      en: 'Narayanganj-2',
+      bn: 'নারায়ণগঞ্জ-২'
     },
     constituencyNumber: {
-      en: '206, Narayanganj-3',
-      bn: '২০৬,নারায়ণগঞ্জ-৩'
+      en: '205, Araihazar Upazila, Narayanganj-2',
+      bn: '২০৫, আড়াইহাজার উপজেলা, নারায়ণগঞ্জ-২'
     },
     imagePath: '/images/leader-image.jpg',
     tagline: {
@@ -45,8 +45,8 @@ export const siteConfig = {
     // Political Party
     party: {
       name: {
-        en: 'Bangladesh ',
-        bn: 'বাংলাদেশ '
+        en: 'Bangladesh Nationalist Party (BNP) ',
+        bn: 'বাংলাদেশ জাতীয়তাবাদী দল (বিএনপি) '
       },
       shortName: {
         en: 'BD',
@@ -69,8 +69,8 @@ export const siteConfig = {
         bn: 'নারায়ণগঞ্জ'
       },
       currentTerm: {
-        en: 'Third Term (2018-2026)',
-        bn: 'তৃতীয় বার (২০১৮-২০২৬)'
+        en: 'Third Term (2026-2030)',
+        bn: 'প্রথমবার (২০২৬-২০৩০)'
       }
     },
 
@@ -79,7 +79,7 @@ export const siteConfig = {
   // Footer Information
   footer: {
     brand: {
-      logoText: 'Samiya Islam Lamiya',
+      logoText: 'Nazrul Islam Azad',
       tagline: {
         en: 'Leadership for a better tomorrow',
         bn: 'উত্তম আগামীর জন্য নেতৃত্ব'
@@ -98,11 +98,11 @@ export const siteConfig = {
     ],
 
     contact: {
-      email: 'samiyaislamlamia@gmail.com',
+      email: 'test@gmail.com',
       phone: '+880 1234 567890',
       address: {
-        en: 'Narayanganj, Bangladesh',
-        bn: 'নারায়ণগঞ্জ, বাংলাদেশ'
+        en: 'Narayanganj-2, Bangladesh',
+        bn: 'নারায়ণগঞ্জ-২, বাংলাদেশ'
       }
     },
 

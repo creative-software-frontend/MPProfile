@@ -1,7 +1,7 @@
 export const getJourneyContent = (language: 'en' | 'bn') => {
   const content = {
     en: {
-      title: "Long Journey with the People of Narayanganj-3",
+      title: "Long Journey with the People of Narayanganj-2",
       subtitle: "Milestones & Achievements",
       
       timeline: [
@@ -65,7 +65,7 @@ export const getJourneyContent = (language: 'en' | 'bn') => {
         {
           year: "২০২৬",
           points: [
-            "টানা তৃতীয় মেয়াদ",
+            "প্রথমবার মেয়াদ",
             "ডিজিটাল রূপান্তর প্রকল্প",
             "আধুনিক স্বাস্থ্যসেবা সুবিধা",
             "যুব দক্ষতা উন্নয়ন",
